@@ -20,6 +20,7 @@ Key components shown:
 git clone https://github.com/yourusername/pairformer-demo
 cd pairformer-demo
 pip install -r requirements.txt
+```
 
 ## Structure
 src/: Source code for both mechanisms
