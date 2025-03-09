@@ -31,5 +31,6 @@ assets/: Visualization outputs
 
 ## References
 
-[The Illustrated AlphaFold](https://elanapearl.github.io/blog/2024/the-illustrated-alphafold/)
-[Pareti - pairformer demo](https://docs.google.com/document/d/1GqRcJmi_1tIUjjn22HonvB0AbSd6D_VdAIryUvbJdn8/edit?tab=t.0#heading=h.583li9lvmsv8)
+- [The Illustrated AlphaFold](https://elanapearl.github.io/blog/2024/the-illustrated-alphafold/)
+
+- [Pareti - pairformer demo](https://docs.google.com/document/d/1GqRcJmi_1tIUjjn22HonvB0AbSd6D_VdAIryUvbJdn8/edit?tab=t.0#heading=h.583li9lvmsv8)
