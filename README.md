@@ -23,11 +23,11 @@ pip install -r requirements.txt
 ```
 
 ## Structure
-src/: Source code for both mechanisms
-examples/: Usage examples
-docs/: Detailed documentation
-tests/: Unit tests
-assets/: Visualization outputs
+- src/: Source code for both mechanisms
+- examples/: Usage examples
+- docs/: Detailed documentation
+- tests/: Unit tests
+- assets/: Visualization outputs
 
 ## References
 
