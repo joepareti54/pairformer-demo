@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triangle Attention Animation</title>
+    
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/@chakra-ui/react@1.6.8/dist/chakra-ui-react.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function TriangleAttentionSlide() {
+            const [step, setStep] = React.useState(0);
+            const maxSteps = 4;
+
+            return (
+                <div className="h-screen bg-white p-8 flex flex-col">
+                    <h1 className="text-2xl font-bold text-center mb-6">
+                        Triangle Attention in AlphaFold 3
+                    </h1>
+
+                    <div className="flex flex-1 gap-8">
+                        {/* Left: Code Panel */}
+                        <div className="w-1/2 bg-gray-50 rounded-lg p-4 shadow-lg">
+                            <pre className="text-sm font-mono">
+                                <code>{`def triangle_attention(Z, W_q, W_k, W_v, W_g):
+    # For position Z[i,j]:
+    query = Z[i,j] @ W_q    # Query from current pos
+    keys = Z[i,:] @ W_k     # Keys from row i
+    values = Z[i,:] @ W_v   # Values from row i
+    bias = Z[j,:] @ W_g     # Bias from row j
+    
+    # Compute attention scores
+    scores = query·keys + bias
+    attention = softmax(scores)
+    
+    # Final output
+    output = attention @ values`}</code>
+                            </pre>
+                        </div>
+
+                        {/* Right: Visualization */}
+                        <div className="w-1/2 flex flex-col">
+                            {/* Grid */}
+                            <div className="grid grid-cols-3 gap-2 mb-6">
+                                {[...Array(9)].map((_, idx) => {
+                                    const i = Math.floor(idx / 3);
+                                    const j = idx % 3;
+                                    const isQuery = i === 0 && j === 1;
+                                    const isKeyValue = i === 0;
+                                    const isBias = i === 1 && j === 2;
+                                    
+                                    let bgColor = "bg-white";
+                                    if (step >= 1 && isQuery) bgColor = "bg-green-200";
+                                    if (step >= 2 && isKeyValue) bgColor = "bg-blue-200";
+                                    if (step >= 3 && isBias) bgColor = "bg-yellow-200";
+
+                                    return (
+                                        <div 
+                                            key={idx}
+                                            className={`h-16 ${bgColor} border border-gray-300 rounded flex items-center justify-center font-mono text-sm shadow-sm`}
+                                        >
+                                            Z[{i},{j}]
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Formulas */}
+                            <div className="space-y-3 font-mono text-sm">
+                                {step >= 1 && (
+                                    <div className="text-green-600">
+                                        Query = Z[i,j] @ W_q
+                                    </div>
+                                )}
+                                {step >= 2 && (
+                                    <div className="text-blue-600">
+                                        Keys = Z[i,:] @ W_k<br/>
+                                        Values = Z[i,:] @ W_v
+                                    </div>
+                                )}
+                                {step >= 3 && (
+                                    <div className="text-yellow-600">
+                                        Bias = Z[j,:] @ W_g
+                                    </div>
+                                )}
+                                {step >= 4 && (
+                                    <div className="pt-3 border-t border-gray-300">
+                                        attention_score = Query·Keys + Bias<br/>
+                                        output = softmax(scores)·Values
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Legend */}
+                            <div className="mt-6 grid grid-cols-3 gap-2 text-xs">
+                                <div className="flex items-center gap-1">
+                                    <div className="w-4 h-4 bg-green-200 rounded"></div>
+                                    <span>Query Z[i,j]</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <div className="w-4 h-4 bg-blue-200 rounded"></div>
+                                    <span>Keys/Values Z[i,:]</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <div className="w-4 h-4 bg-yellow-200 rounded"></div>
+                                    <span>Bias Z[j,:]</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Controls */}
+                    <div className="flex justify-center gap-4 mt-6">
+                        <button 
+                            onClick={() => setStep(Math.max(0, step - 1))}
+                            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                        >
+                            Previous
+                        </button>
+                        <button 
+                            onClick={() => setStep(Math.min(maxSteps, step + 1))}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                            Next Step ({step}/{maxSteps})
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(
+            <TriangleAttentionSlide />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
